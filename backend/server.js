@@ -1,9 +1,15 @@
 const express = require('express');
 const app = express();
 const port = 3001;
+const cors = require('cors');
+
+app.use(cors());
 
 const storage = require('node-persist');
-storage.init();
+storage.init(); // Change to initSync for synchronous operation
+
+// Clear old data on server start
+// storage.removeItem('tasks');
 
 app.use(express.json());
 
@@ -33,4 +39,5 @@ app.get('/getTasks', async (req, res) => {
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
 });
+
 
