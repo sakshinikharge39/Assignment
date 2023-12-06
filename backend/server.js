@@ -1,43 +1,47 @@
-const express = require('express');
+const express = require("express");
 const app = express();
 const port = 3001;
-const cors = require('cors');
+const cors = require("cors");
+const storage = require("node-persist");
 
-app.use(cors());
+async function start() {
+  app.use(cors());
 
-const storage = require('node-persist');
-storage.init(); // Change to initSync for synchronous operation
+  await storage.init(); // Change to initSync for synchronous operation
 
-// Clear old data on server start
-// storage.removeItem('tasks');
+  // Clear old data on server start
+  await storage.clear();
 
-app.use(express.json());
+  app.use(express.json());
 
-app.post('/addTask', async (req, res) => {
+  app.post("/addTask", async (req, res) => {
     try {
-        const task = req.body.task;
-        const tasks = await storage.getItem('tasks') || [];
-        tasks.push(task);
-        await storage.setItem('tasks', tasks);
-        res.json({ success: true });
+      const task = req.body.task;
+      const tasks = (await storage.getItem("tasks")) || [];
+      tasks.push(task);
+      await storage.setItem("tasks", tasks);
+      res.json({ success: true });
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ success: false, error: '500, Server Error' });
+      console.error(error);
+      res.status(500).json({ success: false, error: "500, Server Error" });
     }
-});
+  });
 
-app.get('/getTasks', async (req, res) => {
+  app.get("/getTasks", async (req, res) => {
     try {
-        const tasks = await storage.getItem('tasks') || [];
-        res.json({ tasks });
+      const tasks = (await storage.getItem("tasks")) || [];
+      res.json({ tasks });
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: '500, Server Error' });
+      console.error(error);
+      res.status(500).json({ error: "500, Server Error" });
     }
-});
+  });
 
-app.listen(port, () => {
+  app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
-});
+  });
+}
+start();
+
 
 
