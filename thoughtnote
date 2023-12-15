@@ -1,0 +1,26 @@
+I made two different one for backend and another for frontend
+
+(1)frontend:
+Fistly  I create react app : my-app using command "npx create-vite".
+
+In src folder, there is app.js file.
+
+I have add extra feature of keyboard click : "onKeyUp".
+
+this is add in index.js: <App />
+
+In App.css i have add some styling for example keyframes and media query
+
+(2)Backend:
+server.js is file of backend.
+
+firstly I installed required libraries "axios": "^1.6.2",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "node-persist": "^3.1.3"
+I used postman for database.
+
+because of storage data will be stored in JSON format in storage file.
+
+I used "await storage.clear();" to clear old data on server start
+  
